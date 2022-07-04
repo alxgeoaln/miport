@@ -1,39 +1,67 @@
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
-// Step 5 - delete Instructions components
-import Instructions from '@/components/dom/Instructions'
-// import Shader from '@/components/canvas/Shader/Shader'
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 
-// Dynamic import is used to prevent a payload when the website start that will include threejs r3f etc..
-// WARNING ! errors might get obfuscated by using dynamic import.
-// If something goes wrong go back to a static import to show the error.
-// https://github.com/pmndrs/react-three-next/issues/49
-const Shader = dynamic(() => import('@/components/canvas/Shader/Shader'), {
+import Header from '@/components/header'
+
+import LoadingContainer from '@/components/loading-container'
+import { AppContext } from '@/context/AppWrapperContext'
+
+const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
+})
+const Plane = dynamic(() => import('@/components/canvas/Plane'), {
+  ssr: false,
+  suspense: true,
+})
+
+const EyeTop = dynamic(() => import('@/components/canvas/Eye/EyeTop'), {
+  ssr: false,
+  suspense: true,
+})
+const EyeBottom = dynamic(() => import('@/components/canvas/Eye/EyeBottom'), {
+  ssr: false,
+  suspense: true,
+})
+const Ring = dynamic(() => import('@/components/canvas/Ring'), {
+  ssr: false,
+  suspense: true,
 })
 
 // dom components goes here
-const Page = (props) => {
+const Page = () => {
+  const [planeNeedsUpdated, setPlaneState] = useState(false)
+
+  const { loaded } = useContext(AppContext)
+  const { push } = useRouter()
+
+  const handleProjectsRouting = () => {
+    setPlaneState(true)
+  }
+
   return (
     <>
-      <Instructions />
+      {loaded && <Header handleProjectsRouting={handleProjectsRouting} />}
+      {!loaded && <LoadingContainer />}
+      <LCanvas>
+        <>
+          <Plane planeNeedsUpdated={planeNeedsUpdated} />
+          <EyeTop planeNeedsUpdated={planeNeedsUpdated} />
+          <EyeBottom planeNeedsUpdated={planeNeedsUpdated} />
+          <Ring navigate={push} planeNeedsUpdated={planeNeedsUpdated} />
+        </>
+      </LCanvas>
     </>
   )
 }
-
-// canvas components goes here
-// It will receive same props as Page component (from getStaticProps, etc.)
-Page.r3f = (props) => (
-  <>
-    <Shader />
-  </>
-)
 
 export default Page
 
 export async function getStaticProps() {
   return {
     props: {
-      title: 'Index',
+      title: 'About',
     },
   }
 }

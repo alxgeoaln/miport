@@ -6,7 +6,14 @@
   * {
     box-sizing: border-box;
   }
-  
+
+  @font-face {
+    font-family: 'Gallient';
+    src: url('../asset/GallientRegular-eZoMp.ttf');
+    font-weight: 400;
+    font-style: normal;
+  }
+
   html,
   body,
   #__next {
@@ -15,5 +22,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: 'Gallient';
+    font-weight: 400;
   }
 }
