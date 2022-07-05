@@ -57,9 +57,9 @@ void main() {
 
     vec3 newPosition = position;
 
-    vec3 wind = vec3(0.5 * fbm(position) + 0.3 * uTime, 0.7 * fbm(position) - 0.2 * uTime, 0.3 * fbm(position) + 0.3 * uTime);
+    vec3 wind = vec3(0.5 * fbm(position) + 0.3 * (uTime * 0.9), 0.7 * fbm(position) - 0.2 * (uTime * 0.5), 0.3 * fbm(position) + 0.3 * (uTime * 0.5));
 
-    float wave = mix(-3.0, 3.0, fbm(0.5 * position + wind));
+    float wave = mix(-2.0, 2.0, fbm(0.5 * position + wind));
 
     // set pegs
     vec2 peg1 = vec2(0.0, 1.0);

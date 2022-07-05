@@ -12,7 +12,7 @@ const Plane = ({ planeNeedsUpdated }) => {
   const planeMesh = useRef(null)
 
   const { viewport } = useThree()
-  const texture = useTexture('/Desktop.png')
+  const texture = useTexture('/Desktop1.png')
 
   const uniforms = useMemo(
     () => ({
