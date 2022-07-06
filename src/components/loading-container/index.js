@@ -33,7 +33,7 @@ const LoadingContainer = () => {
       tl.to(
         span,
         {
-          delay: i * 0.08,
+          delay: i * 0.05,
           opacity: 1,
           scale: 2.5,
           position: 'absolute',
@@ -45,7 +45,7 @@ const LoadingContainer = () => {
         span,
         {
           scale: 1,
-          delay: i * 0.08,
+          delay: i * 0.05,
           opacity: 0,
           position: 'absolute',
           top: '40px',
@@ -59,7 +59,7 @@ const LoadingContainer = () => {
           {
             opacity: 0,
             marginTop: -100,
-            delay: i * 0.08,
+            delay: i * 0.05,
           },
           0.3
         )
@@ -69,7 +69,7 @@ const LoadingContainer = () => {
             onUpdate: () => (letterCount.innerText = 2),
             marginTop: 0,
             opacity: 1,
-            delay: i * 0.08,
+            delay: i * 0.05,
           },
           0.4
         )
@@ -78,9 +78,9 @@ const LoadingContainer = () => {
           {
             onComplete: () => setLoaded(true),
             y: window.innerHeight,
-            delay: i * 0.085,
+            delay: i * 0.055,
           },
-          0.5
+          0.4
         )
       }
     }

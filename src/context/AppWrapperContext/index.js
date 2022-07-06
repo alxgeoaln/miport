@@ -6,7 +6,7 @@ export const AppContext = createContext({
 })
 
 const AppWrapper = ({ children }) => {
-  const [loaded, setLoaded] = useState(true)
+  const [loaded, setLoaded] = useState(false)
 
   return (
     <AppContext.Provider
