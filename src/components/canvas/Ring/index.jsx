@@ -19,8 +19,6 @@ const Ring = ({ planeNeedsUpdated, navigate }) => {
     []
   )
 
-  console.log('navigatenavigate', navigate, planeNeedsUpdated)
-
   useFrame(({ clock }) => {
     uniforms.time.value = clock.elapsedTime
   })

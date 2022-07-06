@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
@@ -7,11 +7,13 @@ import Header from '@/components/header'
 
 import LoadingContainer from '@/components/loading-container'
 import { AppContext } from '@/context/AppWrapperContext'
+import gsap from 'gsap'
 
 const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
 })
-const Plane = dynamic(() => import('@/components/canvas/Plane'), {
+
+const Avatar = dynamic(() => import('@/components/canvas/Avatar'), {
   ssr: false,
   suspense: true,
 })
@@ -40,13 +42,32 @@ const Page = () => {
     setPlaneState(true)
   }
 
+  useEffect(() => {
+    if (planeNeedsUpdated) {
+      const info = document.getElementById('info')
+
+      gsap.to(info, {
+        y: 500,
+        duration: 1.5,
+      })
+    }
+  }, [planeNeedsUpdated])
+
   return (
     <>
       {loaded && <Header handleProjectsRouting={handleProjectsRouting} />}
       {!loaded && <LoadingContainer />}
+      <div
+        id='info'
+        className='absolute top-[calc(50%+210px)] left-2/4 -translate-x-2/4 text-center'
+      >
+        <p className='font-bold text-xl'>Alin Alexandru</p>
+        <p className='italic text-gray-400'>frontend developer</p>
+      </div>
+
       <LCanvas>
         <>
-          <Plane planeNeedsUpdated={planeNeedsUpdated} />
+          <Avatar planeNeedsUpdated={planeNeedsUpdated} />
           <EyeTop planeNeedsUpdated={planeNeedsUpdated} />
           <EyeBottom planeNeedsUpdated={planeNeedsUpdated} />
           <Ring navigate={push} planeNeedsUpdated={planeNeedsUpdated} />
