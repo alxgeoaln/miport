@@ -49,7 +49,7 @@ const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
   }, [planeNeedsUpdated])
 
   return (
-    <mesh ref={planeMesh} scale={[300, 400, 1]} position={[0, 10, 0]}>
+    <mesh ref={planeMesh} scale={[300, 400, 1]} position={[0, 15, 0]}>
       <planeBufferGeometry attach='geometry' args={[1, 1, 200, 200]} />
       <shaderMaterial
         uniforms={uniforms}
