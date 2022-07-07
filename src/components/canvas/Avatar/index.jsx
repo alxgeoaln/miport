@@ -1,14 +1,16 @@
 import { useRef, useMemo, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { useTexture } from '@react-three/drei'
 
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Avatar = ({ planeNeedsUpdated }) => {
+const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
   const planeMesh = useRef(null)
   const texture = useTexture('/me.png')
+
+  const { viewport } = useThree()
 
   const uniforms = useMemo(
     () => ({
@@ -47,7 +49,7 @@ const Avatar = ({ planeNeedsUpdated }) => {
   }, [planeNeedsUpdated])
 
   return (
-    <mesh ref={planeMesh} scale={[300, 400, 1]} position={[0, 0, 0]}>
+    <mesh ref={planeMesh} scale={[300, 400, 1]} position={[0, 10, 0]}>
       <planeBufferGeometry attach='geometry' args={[1, 1, 200, 200]} />
       <shaderMaterial
         uniforms={uniforms}
