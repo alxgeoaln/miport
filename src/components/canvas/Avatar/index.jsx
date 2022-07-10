@@ -1,5 +1,5 @@
 import { useRef, useMemo, useEffect, useContext } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { useTexture } from '@react-three/drei'
 
