@@ -35,7 +35,7 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
         uniforms.uAnimationSpeed,
         {
           value: 10.0,
-          duration: 1.5,
+          duration: 0.5,
         },
         0.1
       )
@@ -43,7 +43,7 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
         uniforms.uAlphaChannel,
         {
           value: 0.0,
-          duration: 1.5,
+          duration: 0.5,
         },
         0.1
       )
