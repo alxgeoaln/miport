@@ -1,23 +1,24 @@
 import { useRef, useMemo, useEffect, useContext } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { gsap } from 'gsap'
-import { useTexture } from '@react-three/drei'
 
 import { AppContext } from '@/context/AppWrapperContext'
 
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
+const Background = ({ planeNeedsUpdated, referancePoint }) => {
   const planeMesh = useRef(null)
-  const texture = useTexture('/me.png')
 
   const { isMobile } = useContext(AppContext)
+
+  const { viewport } = useThree()
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0.0 },
-      uTexture: { value: texture },
+      uAnimationSpeed: { value: 0.2 },
+      uAlphaChannel: { value: 0.2 },
     }),
     []
   )
@@ -29,42 +30,44 @@ const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
   useEffect(() => {
     if (planeNeedsUpdated) {
       const tl = gsap.timeline()
+
       tl.to(
-        planeMesh.current.scale,
+        uniforms.uAnimationSpeed,
         {
-          x: 100,
-          y: 100,
+          value: 10.0,
           duration: 1.5,
         },
         0.1
       )
       tl.to(
-        planeMesh.current.position,
+        uniforms.uAlphaChannel,
         {
-          x: 1000,
-          y: 300,
-          duration: 2.0,
+          value: 0.0,
+          duration: 1.5,
         },
         0.1
       )
+      tl.to(planeMesh.current.scale, {
+        x: 0,
+        y: 0,
+      })
     }
   }, [planeNeedsUpdated])
 
   return (
     <mesh
       ref={planeMesh}
-      scale={[isMobile ? 200 : 300, isMobile ? 300 : 400, 1]}
-      position={[0, 20, 0]}
+      scale={[viewport.width + 1000, viewport.height + 1000, 1]}
+      position={[0, 0, -2]}
     >
       <planeBufferGeometry attach='geometry' args={[1, 1, 200, 200]} />
       <shaderMaterial
         uniforms={uniforms}
         fragmentShader={fragment}
         vertexShader={vertex}
-        transparent
       />
     </mesh>
   )
 }
 
-export default Avatar
+export default Background

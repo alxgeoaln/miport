@@ -13,6 +13,10 @@ const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
 })
 
+const Background = dynamic(() => import('@/components/canvas/Background'), {
+  ssr: false,
+  suspense: true,
+})
 const Avatar = dynamic(() => import('@/components/canvas/Avatar'), {
   ssr: false,
   suspense: true,
@@ -59,23 +63,29 @@ const Page = () => {
 
   return (
     <>
-      {loaded && (
-        <Header
-          planeNeedsUpdated={planeNeedsUpdated}
-          handleProjectsRouting={handleProjectsRouting}
-        />
-      )}
       {!loaded && <LoadingContainer />}
-      <div
-        id='info'
-        className='absolute top-[calc(50%+210px)] left-2/4 -translate-x-2/4 text-center'
-      >
-        <p className='font-bold text-xl'>Alin Alexandru</p>
-        <p className='italic text-gray-400'>frontend developer</p>
-      </div>
+      {loaded && (
+        <>
+          <Header handleProjectsRouting={handleProjectsRouting} />
+          <div
+            id='info'
+            className='
+        absolute 
+        z-40
+        top-[calc(50%+210px)] 
+        left-2/4 
+        -translate-x-2/4 
+        text-center'
+          >
+            <p className='font-bold text-xl'>Alin Alexandru</p>
+            <p className='italic text-gray-400'>frontend developer</p>
+          </div>
+        </>
+      )}
 
       <LCanvas>
         <>
+          <Background planeNeedsUpdated={planeNeedsUpdated} />
           <Logo planeNeedsUpdated={planeNeedsUpdated} />
           <Avatar planeNeedsUpdated={planeNeedsUpdated} />
           <EyeTop planeNeedsUpdated={planeNeedsUpdated} />

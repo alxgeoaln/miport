@@ -105,6 +105,7 @@ const Logo = ({ planeNeedsUpdated, pathname }) => {
         uniforms={uniforms}
         fragmentShader={fragment}
         vertexShader={vertex}
+        transparent
       />
     </mesh>
   )
