@@ -87,13 +87,16 @@ void main() {
     rChannel.g = 0.0;
     rChannel.b = 0.0;
 
+
     vec4 gChannel = sampleColor(uv + distortion * rotation2d(2.0));
     gChannel.r = 0.0;
     gChannel.b = 0.0;
 
+
     vec4 bChannel = sampleColor(uv + distortion * rotation2d(3.0));
     bChannel.r = 0.0;
     bChannel.g = 0.0;
+
 
     gl_FragColor = rChannel + gChannel + bChannel;
 }
