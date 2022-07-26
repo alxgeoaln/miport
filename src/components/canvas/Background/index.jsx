@@ -17,6 +17,8 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0.0 },
+      uAnimationSpeed: { value: 0.2 },
+      uAlphaChannel: { value: 0.2 },
     }),
     []
   )
@@ -25,7 +27,32 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
     uniforms.uTime.value = clock.elapsedTime
   })
 
-  useEffect(() => {}, [planeNeedsUpdated])
+  useEffect(() => {
+    if (planeNeedsUpdated) {
+      const tl = gsap.timeline()
+
+      tl.to(
+        uniforms.uAnimationSpeed,
+        {
+          value: 10.0,
+          duration: 1.5,
+        },
+        0.1
+      )
+      tl.to(
+        uniforms.uAlphaChannel,
+        {
+          value: 0.0,
+          duration: 1.5,
+        },
+        0.1
+      )
+      tl.to(planeMesh.current.scale, {
+        x: 0,
+        y: 0,
+      })
+    }
+  }, [planeNeedsUpdated])
 
   return (
     <mesh

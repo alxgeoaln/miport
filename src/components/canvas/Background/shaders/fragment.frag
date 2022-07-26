@@ -1,5 +1,7 @@
 uniform sampler2D uTexture;
 uniform float uTime;
+uniform float uAnimationSpeed;
+uniform float uAlphaChannel;
 
 varying vec2 vUv;
 
@@ -37,11 +39,11 @@ float fbm(vec2 x) {
 void main() {
 
     vec2 test = vec2(
-        distance(vUv.x, 0.03) * vUv.y * (uTime * 0.2),
-        vUv.x * (uTime * 0.1) * distance(vUv.y, 0.03)
+        distance(vUv.x, 0.03) * vUv.y * (uTime * uAnimationSpeed),
+        vUv.x * (uTime * uAnimationSpeed) * distance(vUv.y, 0.03)
     );
 
     float rChannel = smoothstep(0.0, 0.7, fbm(test * -10.0));
 
-    gl_FragColor = vec4(rChannel, rChannel, rChannel, 0.2);
+    gl_FragColor = vec4(rChannel, rChannel, rChannel, uAlphaChannel);
 }

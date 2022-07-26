@@ -34,6 +34,10 @@ const Ring = dynamic(() => import('@/components/canvas/Ring'), {
   ssr: false,
   suspense: true,
 })
+const Logo = dynamic(() => import('@/components/canvas/Logo'), {
+  ssr: false,
+  suspense: true,
+})
 
 // dom components goes here
 const Page = () => {
@@ -59,25 +63,30 @@ const Page = () => {
 
   return (
     <>
-      {<Header handleProjectsRouting={handleProjectsRouting} />}
-      {/* {!loaded && <LoadingContainer />} */}
-      <div
-        id='info'
-        className='
+      {!loaded && <LoadingContainer />}
+      {loaded && (
+        <>
+          <Header handleProjectsRouting={handleProjectsRouting} />
+          <div
+            id='info'
+            className='
         absolute 
         z-40
         top-[calc(50%+210px)] 
         left-2/4 
         -translate-x-2/4 
         text-center'
-      >
-        <p className='font-bold text-xl'>Alin Alexandru</p>
-        <p className='italic text-gray-400'>frontend developer</p>
-      </div>
+          >
+            <p className='font-bold text-xl'>Alin Alexandru</p>
+            <p className='italic text-gray-400'>frontend developer</p>
+          </div>
+        </>
+      )}
 
       <LCanvas>
         <>
-          <Background />
+          <Background planeNeedsUpdated={planeNeedsUpdated} />
+          <Logo planeNeedsUpdated={planeNeedsUpdated} />
           <Avatar planeNeedsUpdated={planeNeedsUpdated} />
           <EyeTop planeNeedsUpdated={planeNeedsUpdated} />
           <EyeBottom planeNeedsUpdated={planeNeedsUpdated} />
