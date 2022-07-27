@@ -1,16 +1,12 @@
-import { useRef, useMemo, useEffect, useContext } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { gsap } from 'gsap'
-
-import { AppContext } from '@/context/AppWrapperContext'
 
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Background = ({ planeNeedsUpdated, referancePoint }) => {
+const Background = ({ planeNeedsUpdated, animationOrder }) => {
   const planeMesh = useRef(null)
-
-  const { isMobile } = useContext(AppContext)
 
   const { viewport } = useThree()
 
@@ -35,22 +31,26 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
         uniforms.uAnimationSpeed,
         {
           value: 10.0,
-          duration: 0.5,
+          duration: 0.3,
         },
-        0.1
+        animationOrder
       )
       tl.to(
         uniforms.uAlphaChannel,
         {
           value: 0.0,
-          duration: 0.5,
         },
-        0.1
+        animationOrder
       )
-      tl.to(planeMesh.current.scale, {
-        x: 0,
-        y: 0,
-      })
+      tl.to(
+        planeMesh.current.scale,
+        {
+          x: 0,
+          y: 0,
+          delay: 0.2,
+        },
+        animationOrder + 0.1
+      )
     }
   }, [planeNeedsUpdated])
 
@@ -65,6 +65,7 @@ const Background = ({ planeNeedsUpdated, referancePoint }) => {
         uniforms={uniforms}
         fragmentShader={fragment}
         vertexShader={vertex}
+        transparent
       />
     </mesh>
   )

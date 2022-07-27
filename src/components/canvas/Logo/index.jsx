@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Logo = ({ planeNeedsUpdated, pathname }) => {
+const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
   const planeMesh = useRef(null)
 
   const texture = useTexture('/logo.png')
@@ -41,18 +41,18 @@ const Logo = ({ planeNeedsUpdated, pathname }) => {
         planeMesh.current.rotation,
         {
           x: -0.01,
-          duration: 1.0,
+          duration: 0.3,
         },
-        0.1
+        animationOrder
       )
       tl.to(
         planeMesh.current.scale,
         {
           x: 0,
           y: 0,
-          duration: 1.0,
+          duration: 0.3,
         },
-        0.2
+        animationOrder + 0.1
       )
     } else {
       tl.to(
