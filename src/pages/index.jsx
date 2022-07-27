@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Header from '@/components/header'
 
 import LoadingContainer from '@/components/loading-container'
+import AnimationRenderContainer from '@/components/animation-render-container'
 import { AppContext } from '@/context/AppWrapperContext'
 import gsap from 'gsap'
 
@@ -84,14 +85,17 @@ const Page = () => {
       )}
 
       <LCanvas>
-        <>
-          <Background planeNeedsUpdated={planeNeedsUpdated} />
-          <Logo planeNeedsUpdated={planeNeedsUpdated} />
-          <Avatar planeNeedsUpdated={planeNeedsUpdated} />
-          <EyeTop planeNeedsUpdated={planeNeedsUpdated} />
-          <EyeBottom planeNeedsUpdated={planeNeedsUpdated} />
-          <Ring navigate={push} planeNeedsUpdated={planeNeedsUpdated} />
-        </>
+        <AnimationRenderContainer
+          navigate={push}
+          planeNeedsUpdated={planeNeedsUpdated}
+        >
+          <Background />
+          <Logo />
+          <Avatar />
+          <EyeTop />
+          <EyeBottom />
+          <Ring />
+        </AnimationRenderContainer>
       </LCanvas>
     </>
   )

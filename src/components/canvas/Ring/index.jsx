@@ -36,9 +36,9 @@ const Ring = ({ planeNeedsUpdated, navigate }) => {
       })
       tl.to(camera.position, {
         z: 0,
-        duration: 1.0,
+        duration: 0.5,
         ease: 'power3.out',
-        delay: 1.0,
+        delay: 0.2,
         onComplete: () => navigate('/projects'),
       })
     }

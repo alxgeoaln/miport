@@ -8,7 +8,7 @@ import { AppContext } from '@/context/AppWrapperContext'
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
+const Avatar = ({ planeNeedsUpdated, animationOrder }) => {
   const planeMesh = useRef(null)
   const texture = useTexture('/me.png')
 
@@ -34,18 +34,18 @@ const Avatar = ({ planeNeedsUpdated, referancePoint }) => {
         {
           x: 100,
           y: 100,
-          duration: 1.5,
+          duration: 0.5,
         },
-        0.1
+        animationOrder + 0.1
       )
       tl.to(
         planeMesh.current.position,
         {
           x: 1000,
           y: 300,
-          duration: 2.0,
+          duration: 0.5,
         },
-        0.1
+        animationOrder + 0.1
       )
     }
   }, [planeNeedsUpdated])
