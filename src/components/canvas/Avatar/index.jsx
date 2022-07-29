@@ -11,6 +11,7 @@ import fragment from './shaders/fragment.frag'
 const Avatar = ({ planeNeedsUpdated, animationOrder }) => {
   const planeMesh = useRef(null)
   const texture = useTexture('/me.png')
+  const whiteTexture = useTexture('/white.png')
 
   const { isMobile } = useContext(AppContext)
 
@@ -18,6 +19,8 @@ const Avatar = ({ planeNeedsUpdated, animationOrder }) => {
     () => ({
       uTime: { value: 0.0 },
       uTexture: { value: texture },
+      uWhiteTexture: { value: whiteTexture },
+      uTimeline: { value: 0.0 },
     }),
     []
   )
@@ -30,20 +33,25 @@ const Avatar = ({ planeNeedsUpdated, animationOrder }) => {
     if (planeNeedsUpdated) {
       const tl = gsap.timeline()
       tl.to(
+        uniforms.uTimeline,
+        {
+          value: 1.0,
+          duration: 0.3,
+        },
+        animationOrder
+      )
+      tl.to(
         planeMesh.current.scale,
         {
-          x: 100,
-          y: 100,
-          duration: 0.5,
+          x: 0,
+          y: 0,
         },
         animationOrder + 0.1
       )
       tl.to(
-        planeMesh.current.position,
+        planeMesh.current.rotation,
         {
-          x: 1000,
-          y: 300,
-          duration: 0.5,
+          z: -1,
         },
         animationOrder + 0.1
       )

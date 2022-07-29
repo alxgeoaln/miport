@@ -29,7 +29,7 @@ const Header = ({
             header.style.scale = 0.0
           },
         },
-        0.1
+        0.0
       )
     } else {
       const tl = gsap.timeline()

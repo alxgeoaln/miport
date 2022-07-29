@@ -52,14 +52,11 @@ const Page = () => {
   }
 
   useEffect(() => {
-    if (planeNeedsUpdated) {
-      const info = document.getElementById('info')
-
-      gsap.to(info, {
-        y: 500,
-        duration: 1.5,
-      })
-    }
+    const info = document.getElementById('info')
+    gsap.to(info, {
+      y: planeNeedsUpdated ? 500 : -20,
+      duration: 1.5,
+    })
   }, [planeNeedsUpdated])
 
   return (
@@ -67,7 +64,10 @@ const Page = () => {
       {!loaded && <LoadingContainer />}
       {loaded && (
         <>
-          <Header handleProjectsRouting={handleProjectsRouting} />
+          <Header
+            planeNeedsUpdated={planeNeedsUpdated}
+            handleProjectsRouting={handleProjectsRouting}
+          />
           <div
             id='info'
             className='

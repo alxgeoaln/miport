@@ -1,5 +1,7 @@
 uniform sampler2D uTexture;
+uniform sampler2D uWhiteTexture;
 uniform float uTime;
+uniform float uTimeline;
 
 varying vec2 vUv;
 
@@ -69,7 +71,7 @@ void main() {
 
     vec2 uv = fract(
         vec2(
-            vUv.x * 1.2 - 0.15, 
+            vUv.x * 1.2 - 0.1, 
             vUv.y * 1.5 - 0.25
         )) - 0.05;
 
@@ -97,6 +99,13 @@ void main() {
     bChannel.r = 0.0;
     bChannel.g = 0.0;
 
+    vec4 avatar = rChannel + gChannel + bChannel;
 
-    gl_FragColor = rChannel + gChannel + bChannel;
+    vec4 whiteTexture = texture(uWhiteTexture, uv);
+
+    float mixer = smoothstep(0.0, 1.0, uTimeline);
+
+    vec4 color = mix(avatar, whiteTexture, mixer);
+
+    gl_FragColor = color;
 }
