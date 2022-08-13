@@ -2,22 +2,32 @@ import { useRef, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
 import { gsap } from 'gsap'
+import { Vector2 } from 'three'
 
 import vertex from './shanders/vertex.vert'
 import fragment from './shanders/fragment.frag'
 
 const dpi = 200
 
-const Plane = ({ planeNeedsUpdated }) => {
+const Plane = ({
+  planeNeedsUpdated,
+  textureName,
+  positionX = 0,
+  positionY = 0,
+}) => {
   const planeMesh = useRef(null)
 
   const { viewport } = useThree()
-  const texture = useTexture('/Desktop1.png')
+  const texture = useTexture(`./${textureName}`)
 
   const uniforms = useMemo(
     () => ({
       uTexture: { value: texture },
       uTime: { value: 0.0 },
+      uPlaneUv: {
+        value: new Vector2(0.0),
+      },
+      uStepValue: { value: 0.0 },
     }),
     []
   )
@@ -28,33 +38,35 @@ const Plane = ({ planeNeedsUpdated }) => {
 
   useEffect(() => {
     if (planeNeedsUpdated) {
-      const tl = gsap.timeline()
-      tl.to(
-        planeMesh.current.scale,
-        {
-          x: 100,
-          y: 100,
-          duration: 1.5,
-        },
-        0.1
-      )
-      tl.to(
-        planeMesh.current.position,
-        {
-          x: viewport.width + 500,
-          y: 200,
-          duration: 3.0,
-        },
-        0.1
-      )
     }
   }, [planeNeedsUpdated])
+
+  const handleOnPointerMove = (e) => {
+    gsap.to(uniforms.uStepValue, {
+      value: 0.005,
+    })
+
+    uniforms.uPlaneUv.value.x = e.uv.x
+    uniforms.uPlaneUv.value.y = e.uv.y
+  }
+
+  const handleOnPointerOut = () => {
+    gsap.to(uniforms.uStepValue, {
+      value: 0.0,
+    })
+    gsap.to(uniforms.uPlaneUv.value, {
+      x: 0,
+      y: 0,
+    })
+  }
 
   return (
     <mesh
       ref={planeMesh}
-      scale={[viewport.width, viewport.height, 1]}
-      position={[0, 0, 0]}
+      scale={[300, 400, 1]}
+      position={[positionX, positionY, 0]}
+      onPointerMove={handleOnPointerMove}
+      onPointerLeave={handleOnPointerOut}
     >
       <planeBufferGeometry attach='geometry' args={[1, 1, dpi, dpi * 1.5]} />
       <shaderMaterial

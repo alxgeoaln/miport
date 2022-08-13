@@ -71,12 +71,12 @@ const Page = () => {
           <div
             id='info'
             className='
-        absolute 
-        z-40
-        top-[calc(50%+210px)] 
-        left-2/4 
-        -translate-x-2/4 
-        text-center'
+              absolute 
+              z-40
+              top-[calc(50%+210px)] 
+              left-2/4 
+              -translate-x-2/4 
+              text-center'
           >
             <p className='font-bold text-xl'>Alin Alexandru</p>
             <p className='italic text-gray-400'>frontend developer</p>
@@ -90,7 +90,7 @@ const Page = () => {
           planeNeedsUpdated={planeNeedsUpdated}
         >
           <Background />
-          <Logo />
+          <Logo loaded={loaded} />
           <Avatar />
           <EyeTop />
           <EyeBottom />

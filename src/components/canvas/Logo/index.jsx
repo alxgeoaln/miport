@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
+const Logo = ({ planeNeedsUpdated, pathname, animationOrder, loaded }) => {
   const planeMesh = useRef(null)
 
   const texture = useTexture('/logo.png')
@@ -24,13 +24,13 @@ const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
 
   useFrame(({ clock }) => {
     uniforms.uTime.value = clock.elapsedTime
-
-    if (pathname === '/projects') {
-      uniforms.uTexture.value = textureWhite
-    } else {
-      uniforms.uTexture.value = texture
-    }
   })
+
+  if (pathname === '/work') {
+    uniforms.uTexture.value = textureWhite
+  } else {
+    uniforms.uTexture.value = texture
+  }
 
   useEffect(() => {
     const tl = gsap.timeline()
@@ -55,6 +55,10 @@ const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
         animationOrder + 0.1
       )
     } else {
+      tl.to(planeMesh.current.scale, {
+        x: 0,
+        y: 0,
+      })
       tl.to(
         planeMesh.current.rotation,
         {
@@ -63,16 +67,6 @@ const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
         },
         0.0
       )
-      tl.to(
-        planeMesh.current.scale,
-        {
-          x: 0,
-          y: 0,
-          duration: 0.0,
-        },
-        0.0
-      )
-
       tl.to(
         planeMesh.current.rotation,
         {
@@ -97,7 +91,6 @@ const Logo = ({ planeNeedsUpdated, pathname, animationOrder }) => {
   return (
     <mesh
       position={[-(viewport.width / 2) + 30, viewport.height / 2 - 25, 0]}
-      scale={[40, 40, 1]}
       ref={planeMesh}
     >
       <planeBufferGeometry attach='geometry' args={[1, 1, 200, 200]} />

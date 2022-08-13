@@ -1,8 +1,7 @@
 uniform float uTime;
+uniform vec2 uPlaneUv;
 
 varying vec2 vUv;
-varying vec3 vPosition;
-varying vec3 vNormal;
 
 #define NUM_OCTAVES 5
 
@@ -50,27 +49,18 @@ float fbm(vec3 x) {
     return v;
 }
 
+float M_PI = 3.141529;
+
+vec3 deformationCurve(vec3 position, vec2 uv, vec2 offset) {
+    position.x = position.x + (sin(uv.y * M_PI) * offset.x);
+    position.y = position.y + (sin(uv.x * M_PI) * offset.y);
+    return position;
+}
+
 void main() {
     vUv = uv;
-    vPosition = position;
-    vNormal = normal;
 
-    vec3 newPosition = position;
-
-    vec3 wind = vec3(0.5 * fbm(position) + 0.3 * (uTime * 0.9), 0.7 * fbm(position) - 0.2 * (uTime * 0.5), 0.3 * fbm(position) + 0.3 * (uTime * 0.5));
-
-    float wave = mix(-2.0, 2.0, fbm(0.5 * position + wind));
-
-    // set pegs
-    vec2 peg1 = vec2(0.0, 1.0);
-    vec2 peg2 = vec2(1.0, 1.0);
-
-    float tension = distance(uv, peg1) * distance(uv, peg2);
-    float gravity = -0.07 * sin(uv.x * 3.141);
-
-    newPosition.y += gravity;
-    newPosition.z += tension * wave;
+    vec3 newPosition = deformationCurve(position, uv, uPlaneUv * 0.1);
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-
 }

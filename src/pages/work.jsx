@@ -2,6 +2,8 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
 import Header from '@/components/header'
+import { useContext } from 'react'
+import { AppContext } from '@/context/AppWrapperContext'
 
 const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
@@ -9,11 +11,16 @@ const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
 
 const Logo = dynamic(() => import('@/components/canvas/Logo'), {
   ssr: false,
-  suspense: true,
 })
 
-function Projects() {
+const Card = dynamic(() => import('@/components/canvas/Card'), {
+  ssr: false,
+})
+
+function Work() {
   const { push, pathname } = useRouter()
+
+  const { isMobile } = useContext(AppContext)
 
   const handleAboutRouting = () => {
     push('/')
@@ -21,52 +28,30 @@ function Projects() {
     appBackground.style.backgroundColor = '#fff'
   }
 
+  const positionX = 320
+
   return (
     <>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#000',
-        }}
-      >
+      <div className='flex w-full h-full justify-center bg-black'>
         <Header handleAboutRouting={handleAboutRouting} />
-
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <p
-            style={{
-              color: '#fff',
-              fontSize: 100,
-            }}
-          >
-            WIP
-          </p>
-        </div>
       </div>
       <LCanvas>
-        <>
-          <Logo pathname={pathname} planeNeedsUpdated={false} />
-        </>
+        <Logo pathname={pathname} />
+
+        <Card positionX={-positionX} textureName='netguru.png' />
+        <Card positionX={0} textureName='ibm.png' />
+        <Card positionX={positionX} textureName='luxoft.png' />
       </LCanvas>
     </>
   )
 }
 
-export default Projects
+export default Work
 
 export async function getStaticProps() {
   return {
     props: {
-      title: 'Projects',
+      title: 'Work',
     },
   }
 }

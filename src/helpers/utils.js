@@ -15,3 +15,7 @@ export const createSpan = (idNumber) => {
 
   return span
 }
+
+export function clamp(x, a, b) {
+  return Math.min(Math.max(x, a), b)
+}
