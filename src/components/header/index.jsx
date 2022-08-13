@@ -70,7 +70,7 @@ const Header = ({
       <a
         onClick={handleProjectsRouting}
         className={
-          pathname === '/projects' ? 'border-b-2 border-white text-white' : ''
+          pathname === '/work' ? 'border-b-2 border-white text-white' : ''
         }
       >
         <p
@@ -78,7 +78,7 @@ const Header = ({
           style={{ cursor: 'pointer' }}
           className='mt-2 text-2xl '
         >
-          Projects
+          Work
         </p>
       </a>
     </div>

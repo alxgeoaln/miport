@@ -39,7 +39,7 @@ const Ring = ({ planeNeedsUpdated, navigate }) => {
         duration: 0.5,
         ease: 'power3.out',
         delay: 0.2,
-        onComplete: () => navigate('/projects'),
+        onComplete: () => navigate('/work'),
       })
     }
   }, [planeNeedsUpdated])
