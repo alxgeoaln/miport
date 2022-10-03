@@ -2,13 +2,20 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import gsap from 'gsap'
+import { GlitchMode } from 'postprocessing'
+import {
+  EffectComposer,
+  Noise,
+  Vignette,
+  Glitch,
+} from '@react-three/postprocessing'
 
 import Header from '@/components/header'
 
 import LoadingContainer from '@/components/loading-container'
 import AnimationRenderContainer from '@/components/animation-render-container'
 import { AppContext } from '@/context/AppWrapperContext'
-import gsap from 'gsap'
 
 const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
   ssr: false,
@@ -43,12 +50,22 @@ const Logo = dynamic(() => import('@/components/canvas/Logo'), {
 // dom components goes here
 const Page = () => {
   const [planeNeedsUpdated, setPlaneState] = useState(false)
+  const [vignetteSettings, setVignetteSettings] = useState({
+    offset: 0.35,
+    darkness: 1,
+  })
+  const [isGlitchActive, setIsGlitchActive] = useState(false)
 
   const { loaded } = useContext(AppContext)
   const { push } = useRouter()
 
   const handleProjectsRouting = () => {
     setPlaneState(true)
+    setVignetteSettings({
+      offset: 0,
+      darkness: 0,
+    })
+    setIsGlitchActive(true)
   }
 
   useEffect(() => {
@@ -56,6 +73,7 @@ const Page = () => {
     gsap.to(info, {
       y: planeNeedsUpdated ? 500 : -20,
       duration: 1.5,
+      onComplete: () => setIsGlitchActive(false),
     })
   }, [planeNeedsUpdated])
 
@@ -96,6 +114,22 @@ const Page = () => {
           <EyeBottom />
           <Ring />
         </AnimationRenderContainer>
+        <EffectComposer>
+          <Noise opacity={0.2} />
+          <Vignette
+            eskil={false}
+            offset={vignetteSettings.offset}
+            darkness={vignetteSettings.darkness}
+          />
+          <Glitch
+            delay={[0.0, 0.1]} // min and max glitch delay
+            duration={[0.6, 1.0]} // min and max glitch duration
+            strength={[0.3, 0.5]} // min and max glitch strength
+            mode={GlitchMode.SPORADIC} // glitch mode
+            active={isGlitchActive} // turn on/off the effect (switches between "mode" prop and GlitchMode.DISABLED)
+            ratio={0.85} // Threshold for strong glitches, 0 - no weak glitches, 1 - no strong glitches.
+          />
+        </EffectComposer>
       </LCanvas>
     </>
   )

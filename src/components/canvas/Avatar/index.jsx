@@ -69,7 +69,7 @@ const Avatar = ({ planeNeedsUpdated, animationOrder }) => {
         uniforms={uniforms}
         fragmentShader={fragment}
         vertexShader={vertex}
-        transparent
+        // transparent
       />
     </mesh>
   )
