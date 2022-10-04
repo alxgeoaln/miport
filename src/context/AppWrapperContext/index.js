@@ -4,11 +4,14 @@ export const AppContext = createContext({
   loaded: false,
   setLoaded: () => undefined,
   isMobile: false,
+  setCountdownFinished: () => undefined,
+  countdownFinished: false,
 })
 
 const AppWrapper = ({ children }) => {
   const [loaded, setLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [countdownFinished, setCountdownFinished] = useState(false)
 
   useEffect(() => {
     if (
@@ -26,6 +29,8 @@ const AppWrapper = ({ children }) => {
         loaded,
         setLoaded,
         isMobile,
+        countdownFinished,
+        setCountdownFinished,
       }}
     >
       {children}

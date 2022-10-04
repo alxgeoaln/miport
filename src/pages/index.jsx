@@ -47,6 +47,14 @@ const Logo = dynamic(() => import('@/components/canvas/Logo'), {
   suspense: true,
 })
 
+const LoadingBackground = dynamic(
+  () => import('@/components/canvas/LoadingBackground'),
+  {
+    ssr: false,
+    suspense: true,
+  }
+)
+
 // dom components goes here
 const Page = () => {
   const [planeNeedsUpdated, setPlaneState] = useState(false)
@@ -56,7 +64,7 @@ const Page = () => {
   })
   const [isGlitchActive, setIsGlitchActive] = useState(false)
 
-  const { loaded } = useContext(AppContext)
+  const { loaded, countdownFinished, setLoaded } = useContext(AppContext)
   const { push } = useRouter()
 
   const handleProjectsRouting = () => {
@@ -72,10 +80,9 @@ const Page = () => {
     const info = document.getElementById('info')
     gsap.to(info, {
       y: planeNeedsUpdated ? 500 : -20,
-      duration: 1.5,
-      onComplete: () => setIsGlitchActive(false),
+      duration: 1,
     })
-  }, [planeNeedsUpdated])
+  }, [planeNeedsUpdated, loaded])
 
   return (
     <>
@@ -103,6 +110,12 @@ const Page = () => {
       )}
 
       <LCanvas>
+        {!loaded ? (
+          <LoadingBackground
+            setLoaded={setLoaded}
+            countdownFinished={countdownFinished}
+          />
+        ) : null}
         <AnimationRenderContainer
           navigate={push}
           planeNeedsUpdated={planeNeedsUpdated}
@@ -110,7 +123,7 @@ const Page = () => {
           <Background />
           <Logo loaded={loaded} />
           <Avatar />
-          <EyeTop />
+          <EyeTop setIsGlitchActive={setIsGlitchActive} />
           <EyeBottom />
           <Ring />
         </AnimationRenderContainer>

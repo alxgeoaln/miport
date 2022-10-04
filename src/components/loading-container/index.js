@@ -5,7 +5,7 @@ import { createSpan } from '@/helpers/utils'
 import { AppContext } from '@/context/AppWrapperContext'
 
 const LoadingContainer = () => {
-  const { setLoaded } = useContext(AppContext)
+  const { setCountdownFinished } = useContext(AppContext)
 
   useEffect(() => {
     const letterCount = document.getElementById('letter-count')
@@ -70,13 +70,14 @@ const LoadingContainer = () => {
             marginTop: 0,
             opacity: 1,
             delay: i * 0.05,
+            onComplete: () => setCountdownFinished(true),
           },
           0.4
         )
+
         tl.to(
           loadingContainer,
           {
-            onComplete: () => setLoaded(true),
             y: window.innerHeight,
             delay: i * 0.055,
           },
@@ -88,7 +89,7 @@ const LoadingContainer = () => {
 
   return (
     <div
-      className='fixed z-40 flex h-full w-full justify-center items-center bg-black'
+      className='fixed z-40 flex h-full w-full justify-center items-center bg-transparent'
       id='loading-container'
     >
       <div id='letter-container'>

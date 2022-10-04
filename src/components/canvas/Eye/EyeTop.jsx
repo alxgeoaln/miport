@@ -6,7 +6,7 @@ import * as THREE from 'three'
 import vertex from './shaders/vertex.vert'
 import fragment from './shaders/fragment.frag'
 
-const EyeTop = ({ planeNeedsUpdated }) => {
+const EyeTop = ({ planeNeedsUpdated, setIsGlitchActive }) => {
   const planeMesh = useRef(null)
   const { viewport } = useThree()
 
@@ -37,7 +37,10 @@ const EyeTop = ({ planeNeedsUpdated }) => {
           duration: 1.0,
           ease: 'power3.out',
           delay: 0.4,
-          onComplete: () => (appBackground.style.backgroundColor = '#000'),
+          onComplete: () => {
+            appBackground.style.backgroundColor = '#000'
+            setIsGlitchActive(false)
+          },
         },
         0.1
       )
