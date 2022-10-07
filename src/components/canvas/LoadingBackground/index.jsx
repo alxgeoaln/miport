@@ -25,18 +25,18 @@ const LoadingBackground = ({ countdownFinished, setLoaded }) => {
       tl.to(
         uniforms.dragValue,
         {
-          value: 0.5,
+          value: 5,
+          duration: 10,
           ease: 'power3.out',
-          duration: 1.5,
         },
-        0.0
+        0.1
       )
       tl.to(
         planeMesh.current.position,
         {
           y: -viewport.height,
           ease: 'power3.out',
-          duration: 1.5,
+          duration: 2,
           onComplete: () => setLoaded(true),
         },
         0.1

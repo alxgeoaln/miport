@@ -79,7 +79,7 @@ const LoadingContainer = () => {
           loadingContainer,
           {
             y: window.innerHeight,
-            delay: i * 0.055,
+            delay: i * 0.053,
           },
           0.4
         )
