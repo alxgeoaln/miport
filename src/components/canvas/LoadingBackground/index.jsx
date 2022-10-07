@@ -22,6 +22,10 @@ const LoadingBackground = ({ countdownFinished, setLoaded }) => {
     if (countdownFinished) {
       const tl = gsap.timeline()
 
+      setTimeout(() => {
+        setLoaded(true)
+      }, 600)
+
       tl.to(
         uniforms.dragValue,
         {
@@ -37,7 +41,6 @@ const LoadingBackground = ({ countdownFinished, setLoaded }) => {
           y: -viewport.height,
           ease: 'power3.out',
           duration: 2,
-          onComplete: () => setLoaded(true),
         },
         0.1
       )

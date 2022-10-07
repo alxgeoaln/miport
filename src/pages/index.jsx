@@ -80,7 +80,7 @@ const Page = () => {
     const info = document.getElementById('info')
     gsap.to(info, {
       y: planeNeedsUpdated ? 500 : -20,
-      duration: 1,
+      duration: 0.5,
     })
   }, [planeNeedsUpdated, loaded])
 

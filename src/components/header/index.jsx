@@ -22,7 +22,7 @@ const Header = ({
         {
           scale: 0,
           rotate: 7.0,
-          duration: 1.0,
+          duration: 0.3,
           onComplete: () => {
             header.style.opacity = 0.0
             header.style.rotate = 7.0
@@ -49,9 +49,9 @@ const Header = ({
           opacity: 1,
           scale: 1,
           rotate: 0,
-          duration: 1.0,
+          duration: 0.3,
         },
-        0.2
+        0.1
       )
     }
   }, [planeNeedsUpdated])
